@@ -7,9 +7,9 @@ const { PORT = 3000, DEV_MODE = true } = process.env;
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 
-app.use(routers);
+app.use("/api", routers);
 
 app.listen(PORT, () => {
   DEV_MODE && console.log("Приложение запущено на порту", PORT);
