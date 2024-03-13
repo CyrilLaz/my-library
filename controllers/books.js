@@ -1,13 +1,8 @@
 /**
- *@typedef {import("./types.d.ts").TController} TController
- *  */
-const db = require("./db.js");
-const { Book } = require("./models.js");
-
-/**@type TController */
-const auth = (req, res) => {
-  res.status(201).send({ id: 1, mail: "test@mail.ru" });
-};
+ *@typedef {import("../types").TController} TController
+ */
+const db = require("../db.js");
+const { Book } = require("../models.js");
 
 /**@type TController */
 const getAllBooks = (req, res) => {
@@ -64,7 +59,6 @@ const deleteBook = (req, res) => {
 };
 
 module.exports = {
-  auth,
   getAllBooks,
   getBookById,
   createBook,
