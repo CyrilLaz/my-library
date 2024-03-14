@@ -22,10 +22,17 @@ const getBookById = (req, res) => {
 };
 
 /**@type TController */
-const createBook = (req, res) => {
-  const { body } = req;
-
-  const newBook = new Book(body);
+const createBook = (req, res, next) => {
+  if (!req.file) {
+    res.status(400).json({ error: "No File" });
+    return;
+  }
+  const { body, file } = req;
+  const newBook = new Book({
+    ...body,
+    fileName: file.originalname,
+    fileBook: file.path,
+  });
   db.books.push(newBook);
 
   res.send(newBook);

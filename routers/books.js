@@ -5,12 +5,13 @@ const {
   editBook,
   deleteBook,
 } = require("../controllers/books");
+const getFile = require("../middlewires/file");
 
 const router = require("express").Router();
 
 router.get("/", getAllBooks);
 router.get("/:id", getBookById);
-router.post("/", createBook);
+router.post("/", getFile.single("book-file"), createBook);
 router.put("/:id", editBook);
 router.delete("/:id", deleteBook);
 

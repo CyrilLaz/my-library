@@ -1,6 +1,7 @@
 export type TController = (
   req: import("express").Request,
-  res: import("express").Response
+  res: import("express").Response,
+  next?:import("express").NextFunction
 ) => void;
 
 export interface IBook {
