@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { notFoundRouter } = require("../controllers/404");
+const notFound = require("../controllers/404");
 const { booksRouter } = require("./books");
 const { userRouter } = require("./user");
 
@@ -9,6 +9,6 @@ router.use("/user", userRouter);
 // book router
 router.use("/books", booksRouter);
 
-router.use(notFoundRouter);
+router.use(notFound);
 
 module.exports.routers = router;
