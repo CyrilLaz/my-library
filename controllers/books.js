@@ -10,12 +10,13 @@ const getAllBooks = (req, res) => {
 };
 
 /**@type TController */
-const getBookById = (req, res) => {
+const getBookById = (req, res, next) => {
   const { id } = req.params;
 
   const book = db.books.find((book) => book.id === id);
   if (!book) {
-    res.status(404).send();
+    next({ statusCode: 404 });
+    // res.status(404).send();
     return;
   }
   res.send(book);
@@ -28,13 +29,17 @@ const downloadBookById = (req, res, next) => {
   const file = db.books.find((book) => book.id === id);
 
   if (!file) {
-    res.status(404).send({ error: "file not exist" });
+    next({ statusCode: 404, message: "file not exist" });
+
+    // res.status(404).send({ error: "file not exist" });
     return;
   }
 
   res.download(file.fileBook, file.fileName, (err) => {
     if (err) {
-      res.status(500).send({ error: "Error File" });
+      next({ statusCode: 500, message: "Error File" });
+
+      // res.status(500).send({ error: "Error File" });
     }
   });
 };
@@ -42,7 +47,9 @@ const downloadBookById = (req, res, next) => {
 /**@type TController */
 const createBook = (req, res, next) => {
   if (!req.file) {
-    res.status(400).json({ error: "No File" });
+    next({ statusCode: 400, message: "No File" });
+
+    // res.status(400).json({ error: "No File" });
     return;
   }
   const { body, file } = req;
@@ -63,7 +70,9 @@ const editBook = (req, res) => {
   const idx = db.books.findIndex((book) => book.id === id);
 
   if (!~idx) {
-    res.status(404).send();
+    next({ statusCode: 404 });
+
+    // res.status(404).send();
     return;
   }
   db.books[idx] = { ...db.books[idx], ...body };
@@ -76,7 +85,9 @@ const deleteBook = (req, res) => {
   const idx = db.books.findIndex((book) => book.id === id);
 
   if (!~idx) {
-    res.status(404).send();
+    next({ statusCode: 404 });
+
+    // res.status(404).send();
     return;
   }
   db.books.splice(idx, 1);
