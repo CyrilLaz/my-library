@@ -9,6 +9,5 @@ router.use("/user", userRouter);
 // book router
 router.use("/books", booksRouter);
 
-router.use(notFound);
 
 module.exports.routers = router;
