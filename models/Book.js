@@ -1,0 +1,26 @@
+const { v4: uuid } = require("uuid");
+
+class Book {
+  /** @param {import('../types').IBook} */
+  constructor({
+    id = uuid(),
+    title = "",
+    description = "",
+    authors = "",
+    favorite = false,
+    fileCover = "",
+    fileName = "",
+    fileBook = "",
+  }) {
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.authors = authors;
+    this.favorite = favorite;
+    this.fileCover = fileCover;
+    this.fileName = fileName;
+    this.fileBook = fileBook;
+  }
+}
+
+module.exports = { Book };

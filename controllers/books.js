@@ -2,7 +2,7 @@
  *@typedef {import("../types").TController} TController
  */
 const db = require("../db.js");
-const { Book } = require("../models.js");
+const { Book } = require("../models/Book.js");
 
 /**@type TController */
 const getAllBooks = (req, res) => {
