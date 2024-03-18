@@ -22,24 +22,6 @@ const getBookById = (req, res) => {
 };
 
 /**@type TController */
-const downloadBookById = (req, res, next) => {
-  const { id } = req.params;
-
-  const file = db.books.find((book) => book.id === id);
-
-  if (!file) {
-    res.status(404).send({ error: "file not exist" });
-    return;
-  }
-
-  res.download(file.fileBook, file.fileName, (err) => {
-    if (err) {
-      res.status(500).send({ error: "Error File" });
-    }
-  });
-};
-
-/**@type TController */
 const createBook = (req, res, next) => {
   if (!req.file) {
     res.status(400).json({ error: "No File" });
@@ -84,7 +66,6 @@ const deleteBook = (req, res) => {
 };
 
 module.exports = {
-  downloadBookById,
   getAllBooks,
   getBookById,
   createBook,
