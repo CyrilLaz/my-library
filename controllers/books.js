@@ -35,7 +35,7 @@ const createBook = (req, res, next) => {
   });
   db.books.push(newBook);
 
-  res.send(newBook);
+  res.redirect('/');
 };
 
 /**@type TController */
