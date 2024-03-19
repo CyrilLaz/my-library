@@ -1,7 +1,6 @@
 /**
  *@typedef {import("../types").TController} TController
  */
-const db = require("../db.js");
 const { Book } = require("../models/Book.js");
 
 /**@type TController */
@@ -27,7 +26,7 @@ const createBook = (req, res, next) => {
     res.status(400).json({ error: "No File" });
     return;
   }
-  const { body, file } = req;
+  const { body, file, db } = req;
   const newBook = new Book({
     ...body,
     fileName: file.originalname,
@@ -35,7 +34,7 @@ const createBook = (req, res, next) => {
   });
   db.books.push(newBook);
 
-  res.redirect('/');
+  res.redirect("/books");
 };
 
 /**@type TController */

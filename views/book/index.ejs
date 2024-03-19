@@ -1,0 +1,12 @@
+<%- include('../port/layout-top.ejs') %>
+<div class="list-group">
+  <% if(books.length) { %> <% books.map(book=>{%>
+  <a href="/books/<%= book.id %>" class="list-group-item list-group-item-action"
+    ><%= book.title %>
+  </a>
+  <% }) %> <% } else { %>
+  <h3 class="mt-9">Книг пока нет</h3>
+  <% } %>
+</div>
+  <a href="/books/create" class="btn btn-primary">Добавить книгу</a>
+<%- include('../port/layout-bottom.ejs') %>
