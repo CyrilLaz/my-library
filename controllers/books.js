@@ -4,15 +4,38 @@
 const { Book } = require("../models/Book.js");
 
 /**@type TController */
-const getBookById = (req, res) => {
-  const { id } = req.params;
+const renderBookListView = (req, res) => {
+  const { books } = req.db;
+  res.render("book/index", { books, title: "Список всех книг" });
+};
 
-  const book = req.db.books.find((book) => book.id === id);
+/**@type TController */
+const renderCreateBookView = (req, res) => {
+  res.render("book/create", { title: "Новая книга" });
+};
+
+/** @type TController */
+const renderBookView = (req, res) => {
+  const { id } = req.params;
+  const { books } = req.db;
+  const book = books.find((book) => book.id === id);
   if (!book) {
     res.status(404).send();
     return;
   }
-  res.sendFile(book.fileBook);
+  res.render("book/view", { title: "Информация о книге", book });
+};
+
+/** @type TController */
+const renderUpdateBookView = (req, res) => {
+  const { id } = req.params;
+  const { books } = req.db;
+  const book = books.find((book) => book.id === id);
+  if (!book) {
+    res.status(404).send();
+    return;
+  }
+  res.render("book/update", { title: "Изменить информацию о книге", book });
 };
 
 /**@type TController */
@@ -79,8 +102,11 @@ const deleteBook = (req, res) => {
 };
 
 module.exports = {
+  renderUpdateBookView,
+  renderBookView,
+  renderCreateBookView,
+  renderBookListView,
   downloadBookById,
-  getBookById,
   createBook,
   editBook,
   deleteBook,
