@@ -5,7 +5,6 @@
 const {
   createBook,
   editBook,
-  deleteBook,
   downloadBookById,
 } = require("../controllers/books");
 const uploadFile = require("../middlewares/file");
@@ -34,9 +33,19 @@ router.get(
   }
 );
 router.get("/:id/download", downloadBookById);
+router.get("/:id/update", /** @type TController */ (req, res) => {
+  const { id } = req.params;
+  const { books } = req.db;
+  const book = books.find((book) => book.id === id);
+  if (!book) {
+    res.status(404).send();
+    return;
+  }
+  res.render("book/update", { title: "Изменить информацию о книге", book });
+});
 
 router.post("/create", uploadFile.single("book-file"), createBook);
-router.put("/:id", editBook);
-router.delete("/:id", deleteBook);
+router.post("/:id/update", editBook);
+// router.delete("/:id", deleteBook);
 
 module.exports.booksRouter = router;

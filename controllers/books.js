@@ -3,7 +3,6 @@
  */
 const { Book } = require("../models/Book.js");
 
-
 /**@type TController */
 const getBookById = (req, res) => {
   const { id } = req.params;
@@ -48,19 +47,22 @@ const downloadBookById = (req, res, next) => {
       res.status(500).send({ error: "Error File" });
     }
   });
-}
+};
 /**@type TController */
 const editBook = (req, res) => {
   const { id } = req.params;
-  const { body } = req;
+  const { body, db } = req;
   const idx = db.books.findIndex((book) => book.id === id);
 
   if (!~idx) {
     res.status(404).send();
     return;
   }
+  if (!body.favorite) {
+    body.favorite = false;
+  }
   db.books[idx] = { ...db.books[idx], ...body };
-  res.send(db.books[idx]);
+  res.redirect(`/books/${db.books[idx].id}`);
 };
 
 /**@type TController */
@@ -77,7 +79,7 @@ const deleteBook = (req, res) => {
 };
 
 module.exports = {
- downloadBookById,
+  downloadBookById,
   getBookById,
   createBook,
   editBook,
