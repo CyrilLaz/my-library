@@ -2,9 +2,13 @@
   <div class="card mt-5 row">
     <div class="card-body col">
       <h5 class="card-title"><%= book.title %></h5>
+      <% if (book.favorite) { %>
+      <span>💖</span>
+      <% } %>
       <h6 class="card-subtitle mb-2 text-muted"><%= book.authors %></h6>
       <p class="card-text"><%= book.description %></p>
     </div>
+
     <div class="card-body col">
       <a href="/books/<%= book.id %>/download">Скачать книгу</a>
     </div>
