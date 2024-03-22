@@ -1,7 +1,9 @@
+type TDb = { db: Record<"books", IBook[]> };
+
 export type TController = (
-  req: import("express").Request,
+  req: import("express").Request & TDb,
   res: import("express").Response,
-  next?:import("express").NextFunction
+  next?: import("express").NextFunction
 ) => void;
 
 export interface IBook {

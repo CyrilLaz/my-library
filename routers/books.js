@@ -1,8 +1,12 @@
+/**
+ *@typedef {import("../types").TController} TController
+ */
+
 const {
-  getBookById,
   createBook,
   editBook,
   deleteBook,
+  downloadBookById,
 } = require("../controllers/books");
 const uploadFile = require("../middlewares/file");
 const router = require("express").Router();
@@ -16,8 +20,22 @@ router.get("/create", (req, res) => {
   res.render("book/create", { title: "Новая книга" });
 });
 
+router.get(
+  "/:id",
+  /** @type TController */ (req, res) => {
+    const { id } = req.params;
+    const { books } = req.db;
+    const book = books.find((book) => book.id === id);
+    if (!book) {
+      res.status(404).send();
+      return;
+    }
+    res.render("book/view", { title: "Информация о книге", book });
+  }
+);
+router.get("/:id/download", downloadBookById);
+
 router.post("/create", uploadFile.single("book-file"), createBook);
-router.get("/:id", getBookById);
 router.put("/:id", editBook);
 router.delete("/:id", deleteBook);
 

@@ -3,21 +3,17 @@
  */
 const { Book } = require("../models/Book.js");
 
-/**@type TController */
-const getAllBooks = (req, res) => {
-  res.send(db.books);
-};
 
 /**@type TController */
 const getBookById = (req, res) => {
   const { id } = req.params;
 
-  const book = db.books.find((book) => book.id === id);
+  const book = req.db.books.find((book) => book.id === id);
   if (!book) {
     res.status(404).send();
     return;
   }
-  res.send(book);
+  res.sendFile(book.fileBook);
 };
 
 /**@type TController */
@@ -37,6 +33,22 @@ const createBook = (req, res, next) => {
   res.redirect("/books");
 };
 
+/**@type TController */
+const downloadBookById = (req, res, next) => {
+  const { id } = req.params;
+
+  const file = req.db.books.find((book) => book.id === id);
+
+  if (!file) {
+    res.status(404).send({ error: "file not exist" });
+    return;
+  }
+  res.download(file.fileBook, file.fileName, (err) => {
+    if (err) {
+      res.status(500).send({ error: "Error File" });
+    }
+  });
+}
 /**@type TController */
 const editBook = (req, res) => {
   const { id } = req.params;
@@ -65,7 +77,7 @@ const deleteBook = (req, res) => {
 };
 
 module.exports = {
-  getAllBooks,
+ downloadBookById,
   getBookById,
   createBook,
   editBook,
