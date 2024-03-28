@@ -1,5 +1,5 @@
 /**
- *@typedef {import("../types").TController} TController
+ *@typedef {import("../../types.js").TController} TController
  */
 const { Book } = require("../models/Book.js");
 

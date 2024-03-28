@@ -1,7 +1,7 @@
 const { v4: uuid } = require("uuid");
 
 class Book {
-  /** @param {import('../types').IBook} */
+  /** @param {import('../../types').IBook} */
   constructor({
     id = uuid(),
     title = "",
