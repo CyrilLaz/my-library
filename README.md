@@ -47,3 +47,6 @@
 - `npm install`
 - `npm run start` - запуск приложения стандартный порт - `3000`
 - `npm run dev` - запуск приложения с помощью `nodemon`, стандартный порт - `3000`
+
+## By Docker
+`docker run --name lib  -v $pwd/:/app -it -p 80:3000 -w /app node:20.10-alpine npm run dev`

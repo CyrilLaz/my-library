@@ -40,16 +40,17 @@ const renderUpdateBookView = (req, res) => {
 
 /**@type TController */
 const createBook = (req, res, next) => {
-  if (!req.file) {
-    res.status(400).json({ error: "No File" });
-    return;
-  }
-  const { body, file, db } = req;
-  const newBook = new Book({
-    ...body,
-    fileName: file.originalname,
-    fileBook: file.path,
-  });
+  // if (!req.file) {
+  //   res.status(400).json({ error: "No File" });
+  //   return;
+  // }
+  const { body, db } = req;
+    if (!body.title) {
+      res.status(400).json({ error: "No Title" });
+      return;
+    }
+
+  const newBook = new Book(body);
   db.books.push(newBook);
 
   res.redirect("/books");
