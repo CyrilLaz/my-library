@@ -10,14 +10,15 @@ const {
   renderBookView,
   renderUpdateBookView,
 } = require("../controllers/books");
+const { incrementCount, getCounts } = require("../middlewares/counter");
 
 const router = require("express").Router();
 
-router.get("/", renderBookListView);
+router.get("/", getCounts, renderBookListView);
 
 router.get("/create", renderCreateBookView);
 
-router.get("/:id", renderBookView);
+router.get("/:id", incrementCount, renderBookView);
 router.get("/:id/update", renderUpdateBookView);
 
 router.post("/create", createBook);
