@@ -1,0 +1,19 @@
+services:
+  storage:
+    image: redis
+    volumes:
+      - ./data:/data
+  counter:
+    image: cyrillaz/counter
+    environment:
+      - PORT=3001
+      - REDIS_URL=redis://storage
+    depends_on:
+      - storage
+  library:
+    image: cyrillaz/library
+    environment:
+      - COUNTER_URL=http://counter:3001/
+      - PORT=3000
+    ports:
+      - 80:3000
