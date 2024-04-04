@@ -1,7 +1,7 @@
 const { v4: uuid } = require("uuid");
 
 class Book {
-  /** @param {import('./types').IBook} */
+  /** @param {import('../../types').IBook} */
   constructor({
     id = uuid(),
     title = "",
@@ -11,6 +11,7 @@ class Book {
     fileCover = "",
     fileName = "",
     fileBook = "",
+    countView = 0,
   }) {
     this.id = id;
     this.title = title;
@@ -20,6 +21,7 @@ class Book {
     this.fileCover = fileCover;
     this.fileName = fileName;
     this.fileBook = fileBook;
+    this.countView = countView;
   }
 }
 
