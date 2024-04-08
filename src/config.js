@@ -1,3 +1,4 @@
 module.exports.UPLOAD_FOLDER = process.env.UPLOAD_FOLDER || "lib";
 module.exports.PORT = process.env.PORT || 3000;
-module.exports.DEV_MODE = process.env.DEV_MODE || true;
+module.exports.NODE_ENV = process.env.NODE_ENV;
+module.exports.MONGO_URL = process.env.MONGO_URL;

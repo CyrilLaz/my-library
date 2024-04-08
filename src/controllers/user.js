@@ -1,5 +1,5 @@
 /**
- *@typedef {import("../types").TController} TController
+ *@typedef {import("../../types").TController} TController
  */
 
 /**@type TController */

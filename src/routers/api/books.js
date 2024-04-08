@@ -1,12 +1,12 @@
 const {
-  getAllBooks,
   getBookById,
   createBook,
   editBook,
   deleteBook,
   downloadBookById,
-} = require("../controllers/books");
-const uploadFile = require("../middlewires/file");
+  getAllBooks,
+} = require("../../controllers/books");
+const uploadFile = require("../../middlewares/file");
 
 const router = require("express").Router();
 
