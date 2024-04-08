@@ -9,7 +9,7 @@ module.exports.incrementCount = async (req, res, next) => {
   try {
     await apiCounter.incrementCount(req.params.id);
   } catch (error) {
-    res.status(500).send(error)
+    res.status(500).send(error);
   }
   next();
 };
@@ -18,9 +18,7 @@ module.exports.incrementCount = async (req, res, next) => {
  * @type import('../../types').TController
  */
 module.exports.getCounts = async (req, res, next) => {
-  const {
-    db: { books },
-  } = req;
+  const { books } = req;
   const counts = {};
   try {
     await Promise.all(

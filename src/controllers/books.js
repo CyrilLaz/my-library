@@ -5,7 +5,7 @@ const { Book } = require("../models/Book.js");
 
 /**@type TController */
 const renderBookListView = (req, res) => {
-  const { books } = req.db;
+  const { books } = req;
   res.render("book/index", { books, title: "Список всех книг" });
 };
 
@@ -16,9 +16,7 @@ const renderCreateBookView = (req, res) => {
 
 /** @type TController */
 const renderBookView = (req, res) => {
-  const { id } = req.params;
-  const { books } = req.db;
-  const book = books.find((book) => book.id === id);
+  const { book } = req;
   if (!book) {
     res.status(404).send();
     return;
@@ -29,8 +27,8 @@ const renderBookView = (req, res) => {
 /** @type TController */
 const renderUpdateBookView = (req, res) => {
   const { id } = req.params;
-  const { books } = req.db;
-  const book = books.find((book) => book.id === id);
+  const { book } = req;
+  // const book = books.find((book) => book.id === id);
   if (!book) {
     res.status(404).send();
     return;
@@ -39,16 +37,21 @@ const renderUpdateBookView = (req, res) => {
 };
 
 /**@type TController */
-const createBook = (req, res, next) => {
-  const { body, db } = req;
-    if (!body.title) {
-      res.status(400).json({ error: "No Title" });
-      return;
-    }
+const createBook = async (req, res, next) => {
+  const { body } = req;
+  console.log(body);
+  if (!body.title) {
+    res.status(400).json({ error: "No Title" });
+    return;
+  }
 
   const newBook = new Book(body);
-  db.books.push(newBook);
-  res.redirect("/books");
+  try {
+    await newBook.save();
+    res.redirect("/books");
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 /**@type TController */
@@ -68,20 +71,20 @@ const downloadBookById = (req, res, next) => {
   });
 };
 /**@type TController */
-const editBook = (req, res) => {
+const editBook = async (req, res) => {
   const { id } = req.params;
-  const { body, db } = req;
-  const idx = db.books.findIndex((book) => book.id === id);
+  const { body } = req;
 
-  if (!~idx) {
-    res.status(404).send();
-    return;
-  }
   if (!body.favorite) {
     body.favorite = false;
   }
-  db.books[idx] = { ...db.books[idx], ...body };
-  res.redirect(`/books/${db.books[idx].id}`);
+
+  try {
+    await Book.findByIdAndUpdate(id, body);
+    res.redirect(`/books/${id}`);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 /**@type TController */

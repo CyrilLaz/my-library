@@ -1,28 +1,13 @@
-const { v4: uuid } = require("uuid");
+const { Schema, model } = require("mongoose");
 
-class Book {
-  /** @param {import('../../types').IBook} */
-  constructor({
-    id = uuid(),
-    title = "",
-    description = "",
-    authors = "",
-    favorite = false,
-    fileCover = "",
-    fileName = "",
-    fileBook = "",
-    countView = 0,
-  }) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.authors = authors;
-    this.favorite = favorite;
-    this.fileCover = fileCover;
-    this.fileName = fileName;
-    this.fileBook = fileBook;
-    this.countView = countView;
-  }
-}
+const bookScheme = new Schema({
+  __v: { type: Number, select: false },
+  title: { type: String, required: true },
+  description: { type: String, default: "" },
+  authors: { type: String, default: "" },
+  favorite: { type: Boolean, default: false },
+  fileCover: String,
+  fileName: String,
+});
 
-module.exports = { Book };
+module.exports.Book = model("Book", bookScheme);
