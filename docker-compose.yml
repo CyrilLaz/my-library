@@ -1,21 +1,29 @@
 services:
   mongodb:
     image: mongo:jammy
-    # environment:
-      # - MONGO_INITDB_ROOT_USERNAME=user
-      # - MONGO_INITDB_ROOT_PASSWORD=pass
-
-  user-api:
+  storage:
+    image: redis
+    volumes:
+      - ./data:/data
+  counter:
+    image: cyrillaz/counter
+    environment:
+      - PORT=3001
+      - REDIS_URL=redis://storage
+    depends_on:
+      - storage
+  library:
     image: node:20.10-alpine
     working_dir: /app
-    command: npm run start
+    command: npm run dev
     volumes:
       - ./:/app
     environment:
+      - COUNTER_URL=http://counter:3001/
+      - PORT=3000
       - NODE_ENV=production
       - SESSION_SECRET=XCjynKV8
-      - MONGO_URL=mongodb://mongodb/users
-      - PORT=3000
+      - MONGO_URL=mongodb://mongodb/library
     ports:
       - 80:3000
     depends_on:
