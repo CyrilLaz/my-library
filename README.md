@@ -1,47 +1,55 @@
-# my-library
+# my-library-user-api
 
-Многостраничный интерфейс для работы с сущностью «книга» с использованием шаблонизатора [ejs](https://www.npmjs.com/package/ejs).
+Интерфейс для работы с сущностью `user` с использованием шаблонизатора [ejs](https://www.npmjs.com/package/ejs).
 
-Подсчет количества запросов за книгой осуществляется отдельным [приложением](https://github.com/CyrilLaz/api-counter) на основе Redis и Express.\
-Для осуществления запросов используется [axios](https://www.npmjs.com/package/axios).\
+Для сохранения данных сессии пользователя используется [express-session](https://www.npmjs.com/package/express-session), для авторизации [passport.js](https://www.npmjs.com/package/passport)
+
+В качестве базы данных используется mongoDB, для работы с ней [mongoose](https://mongoosejs.com/).\
 В `dev` режиме устанавливается зависимость [nodemon](https://www.npmjs.com/package/nodemon).
 
 ## Routers
 
- - Просмотр списка всех книг (вывод заголовков):\
-    `[hostname]:[port]\books`
+- Cтраница с формой входа / регистрации:\
+   `GET /api/user/login`
 
-- Информация по конкретной книге:\
-    `[hostname]:[port]\books\[id]`
+- Cтраница профиля:\
+   `GET /api/user/me`
 
-- создание книги:\
-    `[hostname]:[port]\books\create`
+- Запрос на выход из учетной записи и хакрытие текущей сессии:\
+   `GET /api/user/logout`
 
-- Редактирование книги:\
-    `[hostname]:[port]\books\[id]\update`
+- Запрос на создание новой учетной записи:\
+   `POST /api/user/signup`
 
+- Запрос на вход под учетной записью:\
+   `POST /api/user/login`
 
-## Структура данных книги:
+## Структура данных :
 
 ```js
 {
-  id: "string",
-  title: "string",
-  description: "string",
-  authors: "string",
-  favorite: "boolean",
-  fileCover: "string",
+  username: string;
+  password: string;
 }
 ```
 
+## Переменные окружения:
+
+- NODE_ENV=production
+  - SESSION_SECRET=
+  - MONGO_URL=mongodb://mongodb/users
+  - PORT=3000
+
 ## Установка
+
 - `npm install`
 - `npm run start` - запуск приложения стандартный порт - `3000`
 - `npm run dev` - запуск приложения с помощью `nodemon`, стандартный порт - `3000`
 
 ## By Docker
-`docker run --name lib  -v $pwd/:/app -it -p 80:3000 -w /app node:20.10-alpine npm run start`
 
+`docker `
 
 ## Ссылка посмотреть
+
 http://lib.klazar.ru/
