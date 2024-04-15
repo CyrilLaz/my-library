@@ -35,10 +35,9 @@
 
 ## Переменные окружения:
 
-- NODE_ENV=production
-  - SESSION_SECRET=
-  - MONGO_URL=mongodb://mongodb/users
-  - PORT=3000
+  - SESSION_SECRET
+  - MONGO_URL
+  - PORT
 
 ## Установка
 
