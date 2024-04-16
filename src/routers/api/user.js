@@ -33,7 +33,6 @@ router.get(
 router.post(
   "/login",
   (req, res, next) => {
-      console.log(req);
     return req.authenticate("local", { failureRedirect: "/api/user/login" })(
       req,
       res,
@@ -42,7 +41,7 @@ router.post(
   },
   (req, res) => {
     // получение данных для входа
-    res.redirect("/api/user/me");
+    res.redirect("/books");
   }
 );
 
