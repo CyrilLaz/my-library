@@ -1,13 +1,6 @@
-const session = require("express-session");
-const { localPassport } = require("../../middlewares/passport");
 const { User } = require("../../models/User");
-const { SESSION_SECRET } = require("../../config");
 
 const router = require("express").Router();
-
-router.use(session({ secret: SESSION_SECRET }));
-router.use(localPassport.initialize());
-router.use(localPassport.session());
 
 router.get(
   "/login",
@@ -39,7 +32,14 @@ router.get(
 
 router.post(
   "/login",
-  localPassport.authenticate("local", { failureRedirect: "/api/user/login" }),
+  (req, res, next) => {
+      console.log(req);
+    return req.authenticate("local", { failureRedirect: "/api/user/login" })(
+      req,
+      res,
+      next
+    );
+  },
   (req, res) => {
     // получение данных для входа
     res.redirect("/api/user/me");
@@ -65,6 +65,5 @@ router.get("/logout", (req, res) => {
     res.redirect("/api/user/login");
   });
 });
-
 
 module.exports.userRouter = router;

@@ -2,19 +2,29 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const session = require("express-session");
 const { routers } = require("./routers");
-const { PORT, NODE_ENV, MONGO_URL } = require("./config");
+const { PORT, NODE_ENV, MONGO_URL, SESSION_SECRET } = require("./config");
+const { localPassport } = require("./middlewares/passport");
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(session({ secret: SESSION_SECRET }));
+
+app.use(localPassport.initialize());
+app.use(localPassport.session());
+app.use((req, res, next) => {
+  req.authenticate =(...rest)=> localPassport.authenticate(...rest);
+  next();
+});
 
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use("/", routers);
-
 
 (async () => {
   try {
