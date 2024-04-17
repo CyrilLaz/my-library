@@ -14,14 +14,14 @@ router.use("/api", apiRouters);
 router.use(
   "/books",
   (req, res, next) => {
-    if (!req.isAuthenticated()) {
-      return res.redirect("/api/user/login");
-    }
+    // if (!req.isAuthenticated()) {
+    //   return res.redirect("/api/user/login");
+    // }
     next();
   },
   booksRouter
 );
 
-router.use(notFound);
+// router.use(notFound);
 
 module.exports.routers = router;

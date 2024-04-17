@@ -32,13 +32,12 @@ router.get(
 
 router.post(
   "/login",
-  (req, res, next) => {
-    return req.authenticate("local", { failureRedirect: "/api/user/login" })(
+  (req, res, next) =>
+    req.authenticate("local", { failureRedirect: "/api/user/login" })(
       req,
       res,
       next
-    );
-  },
+    ),
   (req, res) => {
     // получение данных для входа
     res.redirect("/books");

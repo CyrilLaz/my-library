@@ -1,4 +1,4 @@
-<%- include('../port/layout-top.ejs') %>
+<%- include('../port/layout-top.ejs',{hasSocket:false}) %>
 <div class="list-group">
   <% if(books.length) { %> <% books.map(book=>{%>
   <a
@@ -17,4 +17,9 @@
   <% } %>
 </div>
 <a href="/books/create" class="btn btn-primary">Добавить книгу</a>
-<%- include('../port/layout-bottom.ejs',{isNav:true}) %>
+</main>
+<footer>
+<%- include('../port/navigation.ejs') %>
+<%- include('../port/layout-bottom.ejs') %>
+</body>
+</html>
