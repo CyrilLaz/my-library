@@ -1,20 +1,51 @@
+const { Comments } = require("../models/Comments");
+
 module.exports.SocketIO = class {
   constructor(server) {
     this.io = new (require("socket.io").Server)(server);
   }
+  #user = {};
 
-  //from-me-for-book
-  //for-book-to-me
-  init() {
-    this.io.on("connection", (socket) => {
+  setUser(user) {
+    this.#user = user;
+  }
+
+  /**@param {{user:{_id:string},message:string}} msg*/
+  async #pushComment(msg, bookId) {
+    const newMsg = { user: msg.user._id, text: msg.message };
+    try {
+      let comment = await Comments.findOne({ book: bookId });
+      if (!comment) {
+        comment = new Comments({ book: bookId, messages: [newMsg] });
+      } else {
+        comment.messages.push(newMsg);
+      }
+      await comment.save();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  initCommentsConnection(bookIdRoom) {
+    this.io.once("connection", (socket) => {
       const { id } = socket;
       console.log("connection ", id);
-      const { bookId } = socket.handshake.query;
-      // console.log("bookId ", bookId);
+
+      socket.join(bookIdRoom);
+
+      socket.on("message-to-comments", async (msg) => {
+        console.count("msg", msg);
+        msg.user = this.#user;
+        await this.#pushComment(msg, bookIdRoom);
+        socket.to(bookIdRoom).emit("message-to-comments", msg);
+        socket.emit("message-to-comments", msg);
+      });
 
       socket.on("disconnect", () => {
         console.log("disconnect ", id);
       });
     });
+
+    return this;
   }
 };

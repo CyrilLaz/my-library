@@ -13,7 +13,7 @@ const app = express();
 const server = http.createServer(app);
 
 const socketIO = new SocketIO(server);
-socketIO.init();
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -24,6 +24,7 @@ app.use(localPassport.initialize());
 app.use(localPassport.session());
 app.use((req, res, next) => {
   req.authenticate = (...rest) => localPassport.authenticate(...rest);
+  req.socketIO = socketIO;
   next();
 });
 

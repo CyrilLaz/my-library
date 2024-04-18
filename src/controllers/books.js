@@ -21,6 +21,9 @@ const renderBookView = (req, res) => {
     res.status(404).send();
     return;
   }
+  // const user = { username: , _id: '1'};
+
+  req.socketIO.initCommentsConnection(book._id.toString()).setUser(req.user);
   res.render("book/view", { title: "Информация о книге", book });
 };
 
