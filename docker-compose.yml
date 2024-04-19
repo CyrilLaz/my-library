@@ -17,14 +17,14 @@ services:
   library:
     image: node:20.10-alpine
     working_dir: /app
-    command: npm run start
+    command: npm run dev
     volumes:
       - ./:/app
     environment:
       - COUNTER_URL=http://counter:3001/
       - PORT=3000
       - NODE_ENV=production
-      - SESSION_SECRET=XCjynKV8
+      - SESSION_SECRET=SECRET
       - MONGO_URL=mongodb://mongodb/library
     ports:
       - 80:3000

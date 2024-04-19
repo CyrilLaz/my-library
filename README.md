@@ -1,10 +1,15 @@
-# my-library-user-api
+# my-library
 
-Интерфейс для работы с сущностью `user` с использованием шаблонизатора [ejs](https://www.npmjs.com/package/ejs).
+Многостраничное приложение «Библиотека»
+
+Для генерации HTML применяется шаблонизатор [ejs](https://www.npmjs.com/package/ejs).
 
 Для сохранения данных сессии пользователя используется [express-session](https://www.npmjs.com/package/express-session), для авторизации [passport.js](https://www.npmjs.com/package/passport)
 
 В качестве базы данных используется mongoDB, для работы с ней [mongoose](https://mongoosejs.com/).\
+
+На странице просмотра книги присутствует функционал для её обсуждения в комментариях с использованием [Socket.IO](https://socket.io/).
+
 В `dev` режиме устанавливается зависимость [nodemon](https://www.npmjs.com/package/nodemon).
 
 ## Routers
@@ -15,30 +20,17 @@
 - Cтраница профиля:\
    `GET /api/user/me`
 
-- Запрос на выход из учетной записи и хакрытие текущей сессии:\
-   `GET /api/user/logout`
+- Просмотр списка всех книг (вывод заголовков):\
+   `GET /books`
 
-- Запрос на создание новой учетной записи:\
-   `POST /api/user/signup`
+- Информация по конкретной книге c комментариями:\
+   `GET /books/[id]`
 
-- Запрос на вход под учетной записью:\
-   `POST /api/user/login`
+- создание книги:\
+  `GET /books/create`
 
-## Структура данных :
-
-```js
-{
-  username: string;
-  password: string;
-}
-```
-
-## Переменные окружения:
-
-- NODE_ENV=production
-  - SESSION_SECRET=
-  - MONGO_URL=mongodb://mongodb/users
-  - PORT=3000
+- Редактирование книги:\
+   `GET /books/[id]/update`
 
 ## Установка
 
@@ -46,9 +38,9 @@
 - `npm run start` - запуск приложения стандартный порт - `3000`
 - `npm run dev` - запуск приложения с помощью `nodemon`, стандартный порт - `3000`
 
-## By Docker
+## Docker container
 
-`docker `
+`cyrillaz/library`
 
 ## Ссылка посмотреть
 
