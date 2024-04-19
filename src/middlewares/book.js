@@ -20,7 +20,7 @@ module.exports.getBookById = async (req, res, next) => {
   const { id } = req.params;
   try {
     const book = await Book.findById(id);
-    req.book = book;
+    req.book = book.toObject();
     next();
   } catch (error) {
     res.status(500).send(error);

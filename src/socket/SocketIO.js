@@ -6,10 +6,6 @@ module.exports.SocketIO = class {
   }
   #user = {};
 
-  setUser(user) {
-    this.#user = user;
-  }
-
   /**@param {{user:{_id:string},message:string}} msg*/
   async #pushComment(msg, bookId) {
     const newMsg = { user: msg.user._id, text: msg.message };
@@ -26,23 +22,22 @@ module.exports.SocketIO = class {
     }
   }
 
-  initCommentsConnection(bookIdRoom) {
+  initCommentsConnection(bookIdRoom, user) {
     this.io.once("connection", (socket) => {
       const { id } = socket;
-      console.log("connection ", id);
+      // console.log("connection ", id);
 
       socket.join(bookIdRoom);
 
       socket.on("message-to-comments", async (msg) => {
-        console.count("msg", msg);
-        msg.user = this.#user;
+        msg.user = user;
         await this.#pushComment(msg, bookIdRoom);
         socket.to(bookIdRoom).emit("message-to-comments", msg);
         socket.emit("message-to-comments", msg);
       });
 
       socket.on("disconnect", () => {
-        console.log("disconnect ", id);
+        // console.log("disconnect ", id);
       });
     });
 

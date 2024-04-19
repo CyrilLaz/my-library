@@ -11,6 +11,7 @@ const {
   renderUpdateBookView,
 } = require("../controllers/books");
 const { getAllBooks, getBookById } = require("../middlewares/book");
+const { getComments } = require("../middlewares/comments");
 const { incrementCount, getCounts } = require("../middlewares/counter");
 
 const router = require("express").Router();
@@ -19,8 +20,8 @@ router.get("/", getAllBooks, getCounts, renderBookListView);
 
 router.get("/create", renderCreateBookView);
 
-router.get("/:id", incrementCount, getBookById, renderBookView);
-router.get("/:id/update",getBookById, renderUpdateBookView);
+router.get("/:id", incrementCount, getBookById, getComments, renderBookView);
+router.get("/:id/update", getBookById, renderUpdateBookView);
 
 router.post("/create", createBook);
 router.post("/:id/update", editBook);

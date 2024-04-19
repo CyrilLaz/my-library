@@ -16,14 +16,13 @@ const renderCreateBookView = (req, res) => {
 
 /** @type TController */
 const renderBookView = (req, res) => {
-  const { book } = req;
+  const { book, user } = req;
   if (!book) {
     res.status(404).send();
     return;
   }
-  // const user = { username: , _id: '1'};
 
-  req.socketIO.initCommentsConnection(book._id.toString()).setUser(req.user);
+  req.socketIO.initCommentsConnection(book._id.toString(), user);
   res.render("book/view", { title: "Информация о книге", book });
 };
 

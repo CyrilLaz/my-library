@@ -33,7 +33,3 @@ passport.deserializeUser(async (id, done) => {
 });
 
 module.exports.localPassport = passport;
-// module.exports.localPassport = (req, res, next) => {
-//   req.localPassport = passport;
-//   next();
-// };

@@ -1,6 +1,8 @@
 services:
   mongodb:
     image: mongo:jammy
+    volumes:
+      - ./data/db:/data/db
   storage:
     image: redis
     volumes:
@@ -15,7 +17,7 @@ services:
   library:
     image: node:20.10-alpine
     working_dir: /app
-    command: npm run dev
+    command: npm run start
     volumes:
       - ./:/app
     environment:
